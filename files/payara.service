@@ -1,0 +1,10 @@
+[Unit]
+Description=Payara (Glassfish) Server
+After=syslog.target network.target
+
+[Service]
+Type=forking
+User=payara
+RestartSec=10
+ExecStart=/opt/payara/bin/asadmin start-domain
+ExecStop=/opt/payara/bin/asadmin stop-domain

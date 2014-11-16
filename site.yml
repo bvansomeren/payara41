@@ -1,0 +1,7 @@
+---
+- hosts: all
+  user: root
+  tasks: 
+  - include: tasks/main.yml
+    vars:
+        asadmin_password: adminadmin
