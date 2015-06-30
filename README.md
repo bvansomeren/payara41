@@ -6,12 +6,16 @@ Installs a simple Payara install that is ready for Dev use (Mostly to be used fo
 Requirements
 ------------
 
-CentOS 7; Will automatically install OpenJDK 7
+CentOS 7; Will automatically install OpenJDK 8
 
 Role Variables
 --------------
 
-A description of the settable variables for this role should go here, including any variables that are in defaults/main.yml, vars/main.yml, and any variables that can/should be set via parameters to the role. Any variables that are read from other roles and/or the global scope (ie. hostvars, group vars, etc.) should be mentioned here as well.
+Please check the defaults/main.yml for all the current variables.
+asadmin_password: adminadmin
+install_folder: /opt
+payara_download_url: https://s3-eu-west-1.amazonaws.com/payara.co/Payara+Downloads/payara.zip
+java_max_heap_mb: 1578
 
 Dependencies
 ------------
@@ -25,7 +29,7 @@ Including an example of how to use your role (for instance, with variables passe
 
     - hosts: servers
       roles:
-         - { role: bvansomeren.payara, x: 42 }
+         - { role: bvansomeren.payara41 }
 
 License
 -------

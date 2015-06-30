@@ -5,61 +5,61 @@
     group: name=payara state=present
 
   - name: Create Payara user
-    user: name=payara group=payara comment="The Payara server user" home=/opt/payara/ createhome=no state=present
+    user: name=payara group=payara comment="The Payara server user" home={{ install_folder }}/payara/ createhome=no state=present
 
   - name: Install EPEL
-    yum: name=http://mirror.proserve.nl/fedora-epel/7/x86_64/e/epel-release-7-5.noarch.rpm state=present
+    yum: name=epel-release state=present
 
-  - name: install openjdk 7
-    yum: name=java-1.7.0-openjdk state=latest  
- 
+  - name: install openjdk 8
+    yum: name=java-1.8.0-openjdk state=latest
+
   - name: install zip / unzip
     yum: name=unzip state=present
 
   - name: Download latest Payara release to /tmp
-    get_url: url=https://s3-eu-west-1.amazonaws.com/payara.co/Payara+Downloads/payara.zip dest=/tmp/payara.zip
+    get_url: url={{ payara_download_url }} dest=/tmp/payara.zip
 
-  - name: Unzip to /opt
-    unarchive: src=/tmp/payara.zip dest=/opt copy=no
-  
+  - name: Unzip to {{ install_folder }}
+    unarchive: src=/tmp/payara.zip dest={{ install_folder }} copy=no
+
   - name: Link payara to payara41
-    file: src=/opt/payara41 dest=/opt/payara state=link owner=payara group=payara 
+    file: src={{ install_folder }}/payara41 dest={{ install_folder }}/payara state=link owner=payara group=payara
 
   - name: Create password-change.txt
     template: src=password-change.txt.j2 dest=/tmp/password-change.txt owner=payara group=payara mode=0600
-  
+
   - name: Create password.txt
     template: src=password.txt.j2 dest=/tmp/password.txt owner=payara group=payara mode=0600
-  
+
   - name: Set password for asadmin
-    command: /opt/payara/bin/asadmin --user admin --passwordfile /tmp/password-change.txt change-admin-password
+    command: {{ install_folder }}/payara/bin/asadmin --user admin --passwordfile /tmp/password-change.txt change-admin-password
 
   - name: set ownership to payara
-    file: path=/opt/payara41 recurse=yes owner=payara group=payara
+    file: path={{ install_folder }}/payara41 recurse=yes owner=payara group=payara
 
   - name: create systemd wrapper for Payara
     copy: src=payara.service dest=/usr/lib/systemd/system/payara.service
 
   - name: start Payara and add as default service
     service: name=payara state=started enabled=yes
-  
+
   - name: Enable "remote" admin
-    command: /opt/payara/bin/asadmin --user admin --passwordfile /tmp/password.txt enable-secure-admin
-  
+    command: {{ install_folder }}/payara/bin/asadmin --user admin --passwordfile /tmp/password.txt enable-secure-admin
+
   - name: Remove -client jvm option
-    command: /opt/payara/bin/asadmin --user admin --passwordfile /tmp/password.txt delete-jvm-options -client
+    command: {{ install_folder }}/payara/bin/asadmin --user admin --passwordfile /tmp/password.txt delete-jvm-options -client
 
   - name: Set -server jvm option
-    command: /opt/payara/bin/asadmin --user admin --passwordfile /tmp/password.txt create-jvm-options -server
+    command: {{ install_folder }}/payara/bin/asadmin --user admin --passwordfile /tmp/password.txt create-jvm-options -server
 
   - name: Remove -Xmx512m jvm option
-    command: /opt/payara/bin/asadmin --user admin --passwordfile /tmp/password.txt delete-jvm-options -Xmx512m
+    command: {{ install_folder }}/payara/bin/asadmin --user admin --passwordfile /tmp/password.txt delete-jvm-options -Xmx512m
 
-  - name: Set -server jvm option
-    command: /opt/payara/bin/asadmin --user admin --passwordfile /tmp/password.txt create-jvm-options -Xmx1578m   
-  
+  - name: Set -Xmx jvm option
+    command: {{ install_folder }}/payara/bin/asadmin --user admin --passwordfile /tmp/password.txt create-jvm-options -Xmx{{java_max_heap_mb}}m
+
   - name: Restart to enable new settings
     service: name=payara state=restarted
 
-  #- name: Clean up install package
-  #  file: path=/tmp/payara.zip state=absent
+  - name: Clean up install package
+    file: path=/tmp/payara.zip state=absent

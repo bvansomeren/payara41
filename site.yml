@@ -1,7 +1,9 @@
 ---
 - hosts: all
   user: root
-  tasks: 
+  tasks:
   - include: tasks/main.yml
     vars:
         asadmin_password: adminadmin
+
+#See also defauls/main.yml for other options

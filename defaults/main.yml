@@ -2,3 +2,6 @@
 # defaults file for payara
 
 asadmin_password: adminadmin
+install_folder: /opt
+payara_download_url: https://s3-eu-west-1.amazonaws.com/payara.co/Payara+Downloads/payara.zip
+java_max_heap_mb: 1578
