@@ -10,8 +10,9 @@
   - name: Install EPEL
     yum: name=epel-release state=present
 
-  - name: install openjdk 8
-    yum: name=java-1.8.0-openjdk state=latest
+  - name: install dependencies
+    yum: name={{ item }} state=latest
+    with_items: dependencies
 
   - name: install zip / unzip
     yum: name=unzip state=present
@@ -31,8 +32,11 @@
   - name: Create password.txt
     template: src=password.txt.j2 dest=/tmp/password.txt owner=payara group=payara mode=0600
 
+  - name: delete domain1
+    command: "{{ install_folder }}/payara/bin/asadmin delete-domain domain1"
+
   - name: Set password for asadmin
-    command: {{ install_folder }}/payara/bin/asadmin --user admin --passwordfile /tmp/password-change.txt change-admin-password
+    command: "{{ install_folder }}/payara/bin/asadmin --user admin --passwordfile /tmp/password-change.txt change-admin-password"
 
   - name: set ownership to payara
     file: path={{ install_folder }}/payara41 recurse=yes owner=payara group=payara
@@ -44,19 +48,17 @@
     service: name=payara state=started enabled=yes
 
   - name: Enable "remote" admin
-    command: {{ install_folder }}/payara/bin/asadmin --user admin --passwordfile /tmp/password.txt enable-secure-admin
+    command: "{{ install_folder }}/payara/bin/asadmin --user admin --passwordfile /tmp/password.txt enable-secure-admin"
 
   - name: Remove -client jvm option
-    command: {{ install_folder }}/payara/bin/asadmin --user admin --passwordfile /tmp/password.txt delete-jvm-options -client
-
-  - name: Set -server jvm option
-    command: {{ install_folder }}/payara/bin/asadmin --user admin --passwordfile /tmp/password.txt create-jvm-options -server
+    command: "{{ install_folder }}/payara/bin/asadmin --user admin --passwordfile /tmp/password.txt delete-jvm-options -client"
 
   - name: Remove -Xmx512m jvm option
-    command: {{ install_folder }}/payara/bin/asadmin --user admin --passwordfile /tmp/password.txt delete-jvm-options -Xmx512m
+    command: "{{ install_folder }}/payara/bin/asadmin --user admin --passwordfile /tmp/password.txt delete-jvm-options -Xmx512m"
 
-  - name: Set -Xmx jvm option
-    command: {{ install_folder }}/payara/bin/asadmin --user admin --passwordfile /tmp/password.txt create-jvm-options -Xmx{{java_max_heap_mb}}m
+  - name: Set jvm_options
+    command: "{{ install_folder }}/payara/bin/asadmin --user admin --passwordfile /tmp/password.txt create-jvm-options {{ item }}"
+    with_items: jvm_options
 
   - name: Restart to enable new settings
     service: name=payara state=restarted
