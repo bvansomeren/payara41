@@ -1,6 +1,6 @@
 ---
 - hosts: all
-  user: root
+  sudo: yes
   roles:
   - payara41
 #See also defauls/main.yml for other options
