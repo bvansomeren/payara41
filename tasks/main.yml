@@ -1,5 +1,5 @@
 ---
-# tasks file for payarai
+# tasks file for payara
 
   - name: Create Payara group
     group: name=payara state=present
@@ -7,14 +7,10 @@
   - name: Create Payara user
     user: name=payara group=payara comment="The Payara server user" home={{ install_folder }}/payara/ createhome=no state=present
 
-  - name: Install EPEL
-    yum: name=epel-release state=present
+#  - name: Ensure EPEL
+#    yum: name=epel-release state=present
 
-  - name: install dependencies
-    yum: name={{ item }} state=latest
-    with_items: dependencies
-
-  - name: install zip / unzip
+  - name: Ensure unzip is installed
     yum: name=unzip state=present
 
   - name: Download latest Payara release to /tmp
