@@ -6,7 +6,7 @@ Installs a simple Payara install that is ready for Dev use (Mostly to be used fo
 Requirements
 ------------
 
-CentOS 7; Will automatically install OpenJDK 8
+CentOS 7; Depends on geerlingguy.java to install OpenJDK.
 
 Role Variables
 --------------
@@ -39,4 +39,3 @@ MIT
 Author Information
 ------------------
 
-An optional section for the role authors to include contact information, or a website (HTML is not allowed).
