@@ -4,9 +4,8 @@
 asadmin_password: adminadmin
 install_folder: /opt
 #current full download url
-payara_download_url: http://bit.ly/1I4tz9r
+payara_download_url: https://s3-eu-west-1.amazonaws.com/payara.fish/Payara+Downloads/Payara+4.1.1.171.1/payara-4.1.1.171.1.zip
 java_max_heap_mb: 1578
 
-jvm_options:
-  - "-Xmx{{java_max_heap_mb}}m"
+jvm_options: []
 

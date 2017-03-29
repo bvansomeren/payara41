@@ -1,0 +1,6 @@
+---
+
+- name: create systemd wrapper for Payara
+  copy:
+    src: payara.service
+    dest: /usr/lib/systemd/system/payara.service

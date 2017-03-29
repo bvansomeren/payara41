@@ -1,6 +1,12 @@
 ---
 - hosts: all
-  sudo: yes
+  become: yes
+  become_user: root
+  pre_tasks:
+    - name: ensure OpenJDK 8
+      package:
+        name: java-1.8.0-openjdk-devel
+        state: present
   roles:
   - payara41
 #See also defauls/main.yml for other options

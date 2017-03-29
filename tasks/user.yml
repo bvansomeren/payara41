@@ -1,0 +1,17 @@
+---
+# tasks file for payara
+
+- name: ensure Payara group
+  group:
+    name: payara
+    state: present
+
+- name: ensure Payara user
+  user:
+    name: payara
+    group: payara
+    comment: "The Payara server user"
+    home: "{{ install_folder }}/payara/"
+    createhome: no
+    state: present
+

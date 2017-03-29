@@ -6,21 +6,21 @@ Installs a simple Payara install that is ready for Dev use (Mostly to be used fo
 Requirements
 ------------
 
-CentOS 7; Depends on geerlingguy.java to install OpenJDK.
+Removed the dependency on a Java role, it is assumed you install Java
 
 Role Variables
 --------------
 
 Please check the defaults/main.yml for all the current variables.
-asadmin_password: adminadmin
-install_folder: /opt
-payara_download_url: https://s3-eu-west-1.amazonaws.com/payara.co/Payara+Downloads/payara.zip
+
+asadmin_password: adminadmin  
+install_folder: /opt  
+payara_download_url: https://s3-eu-west-1.amazonaws.com/payara.co/Payara+Downloads/payara.zip  
 java_max_heap_mb: 1578
 
 Dependencies
 ------------
 
-A list of other roles hosted on Galaxy should go here, plus any details in regards to parameters that may need to be set for other roles, or variables that are used from other roles.
 
 Example Playbook
 ----------------
@@ -30,6 +30,8 @@ Including an example of how to use your role (for instance, with variables passe
     - hosts: servers
       roles:
          - { role: bvansomeren.payara41 }
+
+Also, have a look at site.yml
 
 License
 -------
