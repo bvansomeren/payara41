@@ -2,6 +2,7 @@ payara
 =========
 
 Installs a simple Payara install that is ready for Dev use (Mostly to be used for Vagrant)
+By default now uses maven\_artifact (Ansible module, maven not required)
 
 Requirements
 ------------
@@ -13,14 +14,15 @@ Role Variables
 
 Please check the defaults/main.yml for all the current variables.
 
-asadmin_password: adminadmin  
-install_folder: /opt  
-payara_download_url: https://s3-eu-west-1.amazonaws.com/payara.co/Payara+Downloads/payara.zip  
-java_max_heap_mb: 1578
+asadmin\_password: adminadmin  
+install\_folder: /opt  
+payara\_download\_url: https://s3-eu-west-1.amazonaws.com/payara.co/Payara+Downloads/payara.zip  
+java\_max\_heap\_mb: 1578
 
 Dependencies
 ------------
 
+If you want to use Maven for downloading Payara you need to have lxml installed in Python on the receiving machine.
 
 Example Playbook
 ----------------

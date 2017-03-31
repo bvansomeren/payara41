@@ -1,10 +1,13 @@
 ---
 # defaults file for payara
 
+payara_version: 4.1.1.171.1
+payara_download_maven: yes
+
 asadmin_password: adminadmin
 install_folder: /opt
 #current full download url
-payara_download_url: https://s3-eu-west-1.amazonaws.com/payara.fish/Payara+Downloads/Payara+4.1.1.171.1/payara-4.1.1.171.1.zip
+payara_download_url: "https://s3-eu-west-1.amazonaws.com/payara.fish/Payara+Downloads/Payara+{{ payara_version }}/payara-{{ payara_version }}.zip"
 java_max_heap_mb: 1578
 
 jvm_options: []

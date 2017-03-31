@@ -5,6 +5,17 @@
   get_url:
     url: "{{ payara_download_url }}"
     dest: /tmp/payara.zip
+  when: "{{ not payara_download_maven }}"
+
+- name: ensure download through maven
+  maven_artifact:
+    group_id: fish.payara.distributions
+    artifact_id: payara
+    version: "{{ payara_version }}"
+    dest: /tmp/payara.zip
+    extension: zip
+    repository_url: http://repo1.maven.org/maven2
+  when: "{{ payara_download_maven }}"
 
 - name: Unzip to {{ install_folder }}
   unarchive:
