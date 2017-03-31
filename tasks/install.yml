@@ -62,14 +62,6 @@
   command: "{{ install_folder }}/payara/bin/asadmin --user admin --passwordfile /tmp/password.txt enable-secure-admin"
   notify: restart payara
 
-- name: Remove -client jvm option
-  command: "{{ install_folder }}/payara/bin/asadmin --user admin --passwordfile /tmp/password.txt delete-jvm-options -client"
-  notify: restart payara
-
-- name: Remove -Xmx512m jvm option
-  command: "{{ install_folder }}/payara/bin/asadmin --user admin --passwordfile /tmp/password.txt delete-jvm-options -Xmx512m"
-  notify: restart payara
-
 - name: Set jvm_options
   command: "{{ install_folder }}/payara/bin/asadmin --user admin --passwordfile /tmp/password.txt create-jvm-options {{ item }}"
   with_items: "{{ jvm_options }}"
