@@ -4,3 +4,4 @@
   copy:
     src: payara.service
     dest: /usr/lib/systemd/system/payara.service
+  when: "{{ ansible_service_mgr == 'systemd' }}"
